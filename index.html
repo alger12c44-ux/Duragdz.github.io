@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duragdz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --white: #ffffff;
+            --white-soft: rgba(255, 255, 255, 0.08);
+            --glass: rgba(0, 0, 0, 0.72);
+            --glass-soft: rgba(0, 0, 0, 0.6);
+            --border: rgba(255, 255, 255, 0.14);
+            --muted: rgba(255, 255, 255, 0.78);
+            --transition: 0.3s ease-in-out;
+            font-size: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Tajawal", "Segoe UI", sans-serif;
+            background: #000 url("https://i.postimg.cc/wTYvKS9N/IMG-20251126-WA0003.jpg") center/cover fixed;
+            color: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            transition: filter 0.4s ease;
+        }
+
+        body.overlay-active {
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.58);
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+            transition: filter 0.4s ease;
+        }
+
+        .page-wrapper.blurred {
+            filter: blur(6px);
+        }
+
+        /* Entry overlay */
+        .entry-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .entry-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .entry-overlay img {
+            max-width: 420px;
+            width: 82vw;
+            border-radius: 26px;
+            box-shadow: 0 28px 58px rgba(0, 0, 0, 0.65);
+        }
+
+        /* Ticker bar */
+        .ticker-bar {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: ticker 20s linear infinite;
+            padding: 10px 0;
+            gap: 60px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Top navigation */
+        .top-bar {
+            position: sticky;
+            top: 44px;
+            z-index: 1100;
+            margin-bottom: 26px;
+        }
+
+        .top-bar .nav-shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 14px 24px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+            text-align: right;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            height: 48px;
+            width: auto;
+            border-radius: 0;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            font-weight: 500;
+            font-size: 0.98rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--muted);
+        }
+
+        /* Glass sections */
+        .glass-panel {
+            background: var(--glass-soft);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 26px 24px 32px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(8px);
+            text-align: right;
+        }
+
+        /* Gallery */
+        .product-gallery {
+            display: grid;
+            gap: 18px;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.45s ease;
+            direction: ltr;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            padding: 0 6px;
+        }
+
+        .slide img {
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 18px 46px rgba(0, 0, 0, 0.55);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.55);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background var(--transition), transform var(--transition);
+            z-index: 5;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .carousel-btn.prev { left: 18px; }
+        .carousel-btn.next { right: 18px; }
+
+        .thumbnail-strip {
+            overflow-x: auto;
+            padding-bottom: 6px;
+            direction: rtl;
+        }
+
+        .thumb-track {
+            display: flex;
+            gap: 10px;
+            min-width: max-content;
+        }
+
+        .thumb {
+            border: 1px solid transparent;
+            border-radius: 14px;
+            padding: 3px;
+            background: rgba(0, 0, 0, 0.55);
+            cursor: pointer;
+            transition: transform var(--transition), border var(--transition), background var(--transition);
+        }
+
+        .thumb img {
+            width: 60px;
+            height: 88px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .thumb.active {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-2px);
+        }
+
+        /* Product info */
+        .product-info {
+            display: grid;
+            gap: 14px;
+            text-align: right;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .rating {
+            font-size: 1rem;
+            color: var(--muted);
+        }
+
+        .price {
+            display: grid;
+            gap: 6px;
+            text-align: right;
+        }
+
+        .price .current-price {
+            font-size: 1.7rem;
+            font-weight: 700;
+        }
+
+        .price .price-range {
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .limited-badge {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.42);
+            font-weight: 500;
+            letter-spacing: 0.4px;
+        }
+
+        /* Form styling */
+        .order-form {
+            text-align: right;
+        }
+
+        .order-form h2 {
+            font-size: 1.4rem;
+            margin-bottom: 22px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-size: 1rem;
+            transition: border var(--transition), background var(--transition);
+            text-align: right;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            padding: 0;
+            border: none;
+            background: transparent;
+            accent-color: #ffffff;
+        }
+
+        /* Products carousel */
+        .products-hint {
+            font-size: 0.92rem;
+            color: var(--muted);
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .product-scroll-wrapper {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .product-carousel {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+        }
+
+        .product-carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .product-carousel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+        }
+
+        .product-carousel::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+        }
+
+        .product-card {
+            flex: 0 0 210px;
+            padding: 16px 14px 18px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.42);
+            display: grid;
+            gap: 14px;
+            transition: border var(--transition), background var(--transition), transform var(--transition), box-shadow var(--transition);
+            scroll-snap-align: start;
+        }
+
+        .product-card.active {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .product-thumb {
+            width: 100%;
+            height: 110px;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .product-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .product-toggle-wrapper span {
+            flex: 1;
+        }
+
+        .product-quantity-control {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            padding: 6px;
+        }
+
+        .product-qty-input {
+            width: 64px;
+            text-align: center;
+            border: none;
+            background: rgba(0, 0, 0, 0.35);
+            color: var(--white);
+            font-weight: 600;
+            padding: 10px 0;
+            border-radius: 12px;
+        }
+
+        .product-qty-input:focus {
+            outline: none;
+            border: none;
+        }
+
+        .qty-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.14);
+            color: var(--white);
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition), transform var(--transition);
+        }
+
+        .qty-btn:hover {
+            background: rgba(255, 255, 255, 0.24);
+            transform: scale(1.05);
+        }
+
+        /* Delivery */
+        .delivery-options {
+            margin: 24px 0 18px;
+        }
+
+        .delivery-options h4 {
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .delivery-option label {
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .order-summary {
+            margin-top: 22px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid var(--border);
+            display: grid;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .cart-line {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+
+        .promo-wrapper {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0 12px;
+        }
+
+        .promo-wrapper input {
+            flex: 1;
+        }
+
+        .promo-wrapper button {
+            flex: 0 0 140px;
+        }
+
+        button.btn-primary,
+        button.btn-light {
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 1px solid var(--white);
+            background: var(--white);
+            color: #000;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform var(--transition), background var(--transition), color var(--transition);
+        }
+
+        button.btn-primary:hover,
+        button.btn-light:hover {
+            transform: translateY(-2px);
+            background: #f3f3f3;
+        }
+
+        .delivery-note {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.55);
+            padding: 10px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background var(--transition), border var(--transition);
+        }
+
+        .tab.active {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            padding: 24px 20px;
+            text-align: right;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content img {
+            max-width: 460px;
+            margin: 0 auto 18px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .tab-title {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            text-align: right;
+        }
+
+        /* Contact & Footer */
+        .contact-section {
+            text-align: right;
+            display: grid;
+            gap: 14px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .contact-links a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        footer {
+            margin-top: 38px;
+            text-align: right;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        /* Floating button */
+        .floating-order-btn {
+            position: fixed;
+            bottom: 24px;
+            inset-inline-end: 24px;
+            padding: 14px 28px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.85);
+            color: #000;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+            transition: transform var(--transition), background var(--transition);
+            z-index: 5;
+        }
+
+        .floating-order-btn:hover {
+            transform: translateY(-3px);
+            background: #fff;
+        }
+
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .top-bar { top: 44px; }
+            .top-bar .nav-shell { justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper { padding: 18px 16px 80px; }
+            .glass-panel { padding: 22px 18px 28px; }
+        }
+
+        @media (max-width: 540px) {
+            .floating-order-btn {
+                inset-inline: 16px;
+                width: calc(100% - 32px);
+                border-radius: 18px;
+                text-align: center;
+            }
+
+            .product-card {
+                flex: 0 0 180px;
+            }
+        }
+    </style>
+</head>
+<body id="top" class="overlay-active">
+    <!-- Overlay (ضع رابط الصورة في السطر أدناه) -->
+    <div class="entry-overlay" id="entry-overlay">
+        <img src="https://i.postimg.cc/VkKPV10X/IMG-20251128-WA0001.jpg" alt="صورة ترحيبية">
+    </div>
+
+    <div class="ticker-bar">
+        <div class="ticker-track">
+            <span>1 قطعة = دج 2,500</span>
+            <span>2 قطع = دج 4,500</span>
+            <span>3 قطع = دج 6,000</span>
+            <span>4 قطع = دج 7,500</span>
+            <span>كل قطعة إضافية = + دج 1,500</span>
+            <span>عرض خاص لفترة محدودة!</span>
+        </div>
+    </div>
+
+    <div class="page-wrapper blurred">
+        <header class="top-bar">
+            <div class="nav-shell">
+                <div class="brand">
+                    <img src="https://i.postimg.cc/kGCw7PPg/Photo_Room_20251128_161041.png" alt="شعار إناراتي ستور">
+                </div>
+                <nav class="nav-links">
+                    <a href="#details">المنتج</a>
+                    <a href="#commande">إتمام الشراء</a>
+                    <a href="#faq">الأسئلة الشائعة</a>
+                    <a href="#contact">تواصل معنا</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="glass-panel product-gallery" id="details">
+                <div class="carousel">
+                    <button class="carousel-btn prev" type="button" aria-label="الصورة السابقة"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-track">
+                        <div class="slide"><img src="https://i.postimg.cc/nLcN47Xs/IMG_3417.jpg" alt="أبليك كلاسيكي - منظور 1"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/tTsffjdw/IMG_3418.jpg" alt="أبليك كلاسيكي - منظور 2"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/cHvjjS75/IMG_3419.jpg" alt="أبليك كلاسيكي - منظور 3"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/261JJDdK/IMG_3420.jpg" alt="أبليك كلاسيكي - منظور 4"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/JnsggL3f/IMG_3421.jpg" alt="أبليك كلاسيكي - منظور 5"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/bJZMMhHJ/IMG_3422.jpg" alt="أبليك كلاسيكي - منظور 6"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/NMZVvzpF/IMG_3423.jpg" alt="أبليك كلاسيكي - منظور 7"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/0Qh31BcM/IMG_3424.jpg" alt="أبليك كلاسيكي - منظور 8"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/rm7b2PQG/IMG_3425.jpg" alt="أبليك كلاسيكي - منظور 9"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/tRkRsDPd/IMG_3438.jpg" alt="أبليك كلاسيكي - منظور 10"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/QxM815kY/IMG_3439.jpg" alt="أبليك كلاسيكي - منظور 11"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/pXdWz8YB/IMG_3440.jpg" alt="أبليك كلاسيكي - منظور 12"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/Nf0smT7D/IMG_3441.jpg" alt="أبليك كلاسيكي - منظور 13"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/fTgwKL8z/IMG_3442.jpg" alt="أبليك كلاسيكي - منظور 14"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/Wbf2n352/IMG_3443.jpg" alt="أبليك كلاسيكي - منظور 15"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/MKrWDT9H/IMG_3444.jpg" alt="أبليك كلاسيكي - منظور 16"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/NfPg4Mdv/IMG_3445.jpg" alt="أبليك كلاسيكي - منظور 17"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/HsLYX54R/IMG_3446.jpg" alt="أبليك كلاسيكي - منظور 18"></div>
+                        <div class="slide"><img src="https://i.postimg.cc/02NkDmdc/IMG_3447.jpg" alt="أبليك كلاسيكي - منظور 19"></div>
+                    </div>
+                    <button class="carousel-btn next" type="button" aria-label="الصورة التالية"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="thumbnail-strip" aria-label="معرض الصور المصغرة">
+                    <div class="thumb-track">
+                        <button class="thumb active" type="button"><img src="https://i.postimg.cc/nLcN47Xs/IMG_3417.jpg" alt="صورة مصغرة 1"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/tTsffjdw/IMG_3418.jpg" alt="صورة مصغرة 2"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/cHvjjS75/IMG_3419.jpg" alt="صورة مصغرة 3"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/261JJDdK/IMG_3420.jpg" alt="صورة مصغرة 4"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/JnsggL3f/IMG_3421.jpg" alt="صورة مصغرة 5"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/bJZMMhHJ/IMG_3422.jpg" alt="صورة مصغرة 6"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/NMZVvzpF/IMG_3423.jpg" alt="صورة مصغرة 7"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/0Qh31BcM/IMG_3424.jpg" alt="صورة مصغرة 8"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/rm7b2PQG/IMG_3425.jpg" alt="صورة مصغرة 9"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/tRkRsDPd/IMG_3438.jpg" alt="صورة مصغرة 10"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/QxM815kY/IMG_3439.jpg" alt="صورة مصغرة 11"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/pXdWz8YB/IMG_3440.jpg" alt="صورة مصغرة 12"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/Nf0smT7D/IMG_3441.jpg" alt="صورة مصغرة 13"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/fTgwKL8z/IMG_3442.jpg" alt="صورة مصغرة 14"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/Wbf2n352/IMG_3443.jpg" alt="صورة مصغرة 15"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/MKrWDT9H/IMG_3444.jpg" alt="صورة مصغرة 16"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/NfPg4Mdv/IMG_3445.jpg" alt="صورة مصغرة 17"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/HsLYX54R/IMG_3446.jpg" alt="صورة مصغرة 18"></button>
+                        <button class="thumb" type="button"><img src="https://i.postimg.cc/02NkDmdc/IMG_3447.jpg" alt="صورة مصغرة 19"></button>
+                    </div>
+                </div>
+
+                <div class="product-info">
+                <h1 class="product-title">دو-راغ عالي الجودة</h1>
+                    <div class="rating">تقييم 4/5 (126 عميلًا راضيًا)</div>
+                    <div class="price">
+                        <span class="current-price" id="price-display">قيمة المنتجات: دج 2,500.00</span>
+                        <span class="price-range">عروض الكمية: 1 = 2500 | 2 = 4500 | 3 = 6000 | 4 = 7500 | +1500 لكل قطعة إضافية</span>
+                    </div>
+                    <span class="limited-badge">تنبيه: كمية محدودة</span>
+                    <p>دو-راغ عالي الجودة مصنوع من قماش ناعم ومرن، يوفر ثباتًا ممتازًا على الشعر دون ضغط زائد، ويساعد على الحفاظ على الويفز وحماية الشعر أثناء النوم ومنع الجفاف والتقصف. مناسب لجميع أنواع الشعر مع أربطة طويلة لربط سهل وثبات مثالي طوال اليوم.</p>
+                </div>
+            </section>
+
+            <section class="glass-panel" id="commande">
+                <form class="order-form" id="order-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="0c2cd512-fcbb-4b6d-93a5-6572ef840f0e">
+                    <input type="hidden" name="subject" value="Nouvelle commande Applique classique">
+                    <input type="hidden" name="product" value="أبليك جداري كلاسيكي">
+                    <input type="hidden" name="delivery_mode_text" id="delivery-mode-text">
+                    <input type="hidden" name="subtotal_amount" id="subtotal-input" value="0.00">
+                    <input type="hidden" name="delivery_amount" id="delivery-input" value="0.00">
+                    <input type="hidden" name="total_amount" id="total-input" value="0.00">
+                    <input type="hidden" name="total_quantity" id="total-quantity-input" value="0">
+
+                    <h2>أكمل طلبك الآن</h2>
+
+                    <div class="form-group">
+                        <label>اختيار المنتجات <span class="required">*</span></label>
+                        <p class="products-hint">اسحب البطاقات يمينًا ويسارًا (Swipe) لاختيار أكثر من منتج واحد بسهولة.</p>
+                        <div class="product-scroll-wrapper">
+                            <div class="product-carousel">
+                                <div class="product-card" data-product="Black Bandana">
+                                    <img src="https://i.postimg.cc/nLcN47Xs/IMG_3417.jpg" alt="Produit (001) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Black-Bandana" required>
+                                        <span>Black Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (001)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (001)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_001" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (001)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Burgundy Bandana">
+                                    <img src="https://i.postimg.cc/tTsffjdw/IMG_3418.jpg" alt="Produit (002) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Burgundy-Bandana">
+                                        <span>Burgundy Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (002)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (002)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_002" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (002)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="White Bandana">
+                                    <img src="https://i.postimg.cc/cHvjjS75/IMG_3419.jpg" alt="Produit (003) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="White-Bandana">
+                                        <span>White Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (003)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (003)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_003" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (003)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Multicolor Patchwork Bandana">
+                                    <img src="https://i.postimg.cc/261JJDdK/IMG_3420.jpg" alt="Produit (004) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Multicolor-Patchwork-Bandana">
+                                        <span>Multicolor Patchwork Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (004)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (004)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_004" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (004)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Red Bandana">
+                                    <img src="https://i.postimg.cc/JnsggL3f/IMG_3421.jpg" alt="Produit (005) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Red-Bandana">
+                                        <span>Red Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (005)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (005)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_005" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (005)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Brown–Beige Patchwork Bandana">
+                                    <img src="https://i.postimg.cc/bJZMMhHJ/IMG_3422.jpg" alt="Produit (006) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Brown–Beige-Patchwork-Bandana">
+                                        <span>Brown–Beige Patchwork Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (006)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (006)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_006" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (006)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Green Bandana">
+                                    <img src="https://i.postimg.cc/NMZVvzpF/IMG_3423.jpg" alt="Produit (007) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Green-Bandana">
+                                        <span>Green Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (007)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (007)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_007" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (007)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Navy Bandana">
+                                    <img src="https://i.postimg.cc/0Qh31BcM/IMG_3424.jpg" alt="Produit (008) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Navy-Bandana">
+                                        <span>Navy Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (008)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (008)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_008" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (008)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Royal Blue Bandana">
+                                    <img src="https://i.postimg.cc/rm7b2PQG/IMG_3425.jpg" alt="Produit (009) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Royal-Blue-Bandana">
+                                        <span>Royal Blue Bandana</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (009)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (009)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_009" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (009)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Plain Red">
+                                    <img src="https://i.postimg.cc/tRkRsDPd/IMG_3438.jpg" alt="Produit (010) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Plain-Red">
+                                        <span>Plain Red</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (010)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (010)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_010" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (010)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Plain Navy Blue">
+                                    <img src="https://i.postimg.cc/QxM815kY/IMG_3439.jpg" alt="Produit (011) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Plain-Navy-Blue">
+                                        <span>Plain Navy Blue</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (011)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (011)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_011" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (011)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Turquoise">
+                                    <img src="https://i.postimg.cc/pXdWz8YB/IMG_3440.jpg" alt="Produit (012) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Turquoise">
+                                        <span>Turquoise</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (012)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (012)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_012" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (012)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Brown (Caramel)">
+                                    <img src="https://i.postimg.cc/Nf0smT7D/IMG_3441.jpg" alt="Produit (013) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Brown-(Caramel)">
+                                        <span>Brown (Caramel)</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (013)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (013)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_013" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (013)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Silver/Grey">
+                                    <img src="https://i.postimg.cc/fTgwKL8z/IMG_3442.jpg" alt="Produit (014) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Silver/Grey">
+                                        <span>Silver/Grey</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (014)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (014)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_014" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (014)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Royal Blue">
+                                    <img src="https://i.postimg.cc/Wbf2n352/IMG_3443.jpg" alt="Produit (015) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Royal-Blue">
+                                        <span>Royal Blue</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (015)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (015)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_015" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (015)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="White">
+                                    <img src="https://i.postimg.cc/MKrWDT9H/IMG_3444.jpg" alt="Produit (016) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="White">
+                                        <span>White</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (016)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (016)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_016" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (016)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Black">
+                                    <img src="https://i.postimg.cc/NfPg4Mdv/IMG_3445.jpg" alt="Produit (017) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Black">
+                                        <span>Black</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (017)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (017)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_017" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (017)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Purple">
+                                    <img src="https://i.postimg.cc/HsLYX54R/IMG_3446.jpg" alt="Produit (018) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Purple">
+                                        <span>Purple</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (018)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (018)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_018" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (018)">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-product="Gold">
+                                    <img src="https://i.postimg.cc/02NkDmdc/IMG_3447.jpg" alt="Produit (019) - صورة" class="product-thumb">
+                                    <label class="product-toggle-wrapper">
+                                        <input type="checkbox" class="product-toggle" name="products[]" value="Gold">
+                                        <span>Gold</span>
+                                    </label>
+                                    <div class="product-quantity-control" aria-label="كمية Produit (019)">
+                                        <button type="button" class="qty-btn minus" aria-label="إنقاص كمية Produit (019)">−</button>
+                                        <input type="number" class="product-qty-input" name="quantity_produit_019" value="0" min="0">
+                                        <button type="button" class="qty-btn plus" aria-label="زيادة كمية Produit (019)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="full-name">الاسم الكامل <span class="required">*</span></label>
+                        <input type="text" id="full-name" name="full_name" placeholder="اكتب اسمك الكامل" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف <span class="required">*</span></label>
+                        <input type of="tel" id="phone" name="phone" placeholder="06XXXXXXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wilaya-select">الولاية <span class="required">*</span></label>
+                        <select id="wilaya-select" name="wilaya" required>
+                            <option value="">اختر ولايتك</option>
+                            <option value="أدرار">أدرار</option>
+                            <option value="الشلف">الشلف</option>
+                            <option value="الأغواط">الأغواط</option>
+                            <option value="أم البواقي">أم البواقي</option>
+                            <option value="باتنة">باتنة</option>
+                            <option value="بجاية">بجاية</option>
+                            <option value="بسكرة">بسكرة</option>
+                            <option value="بشار">بشار</option>
+                            <option value="البليدة">البليدة</option>
+                            <option value="البويرة">البويرة</option>
+                            <option value="تمنراست">تمنراست</option>
+                            <option value="تبسة">تبسة</option>
+                            <option value="تلمسان">تلمسان</option>
+                            <option value="تيارت">تيارت</option>
+                            <option value="تيزي وزو">تيزي وزو</option>
+                            <option value="الجزائر">الجزائر</option>
+                            <option value="الجلفة">الجلفة</option>
+                            <option value="جيجل">جيجل</option>
+                            <option value="سطيف">سطيف</option>
+                            <option value="سعيدة">سعيدة</option>
+                            <option value="سكيكدة">سكيكدة</option>
+                            <option value="سيدي بلعباس">سيدي بلعباس</option>
+                            <option value="عنابة">عنابة</option>
+                            <option value="قالمة">قالمة</option>
+                            <option value="قسنطينة">قسنطينة</option>
+                            <option value="المدية">المدية</option>
+                            <option value="مستغانم">مستغانم</option>
+                            <option value="المسيلة">المسيلة</option>
+                            <option value="معسكر">معسكر</option>
+                            <option value="ورقلة">ورقلة</option>
+                            <option value="وهران">وهران</option>
+                            <option value="البيض">البيض</option>
+                            <option value="إيليزي">إيليزي</option>
+                            <option value="برج بوعريريج">برج بوعريريج</option>
+                            <option value="بومرداس">بومرداس</option>
+                            <option value="الطارف">الطارف</option>
+                            <option value="تندوف">تندوف</option>
+                            <option value="تيسمسيلت">تيسمسيلت</option>
+                            <option value="الوادي">الوادي</option>
+                            <option value="خنشلة">خنشلة</option>
+                            <option value="سوق أهراس">سوق أهراس</option>
+                            <option value="تيبازة">تيبازة</option>
+                            <option value="ميلة">ميلة</option>
+                            <option value="عين الدفلى">عين الدفلى</option>
+                            <option value="النعامة">النعامة</option>
+                            <option value="عين تموشنت">عين تموشنت</option>
+                            <option value="غرداية">غرداية</option>
+                            <option value="غليزان">غليزان</option>
+                            <option value="تميمون">تميمون</option>
+                            <option value="برج باجي مختار">برج باجي مختار</option>
+                            <option value="أولاد جلال">أولاد جلال</option>
+                            <option value="بني عباس">بني عباس</option>
+                            <option value="إن صالح">إن صالح</option>
+                            <option value="إن قزام">إن قزام</option>
+                            <option value="تقرت">تقرت</option>
+                            <option value="جانت">جانت</option>
+                            <option value="المغير">المغير</option>
+                            <option value="المنيعة">المنيعة</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">العنوان الكامل <span class="required">*</span></label>
+                        <input type="text" id="address" name="address" placeholder="اكتب العنوان بالتفصيل" required>
+                    </div>
+
+                    <div class="delivery-options">
+                        <h4>خدمة التوصيل</h4>
+                        <div class="delivery-option">
+                            <input type="radio" id="delivery-desk" name="delivery" value="desk" data-label= نقطة استلام" checked>
+                            <label for="delivery-desk"> نقطة استلام — <span id="delivery-desk-price">دج 0.00</span></label>
+                        </div>
+                        <div class="delivery-option">
+                            <input type="radio" id="delivery-home" name="delivery" value="domicile" data-label=" توصيل إلى المنزل">
+                            <label for="delivery-home"> توصيل إلى المنزل — <span id="delivery-home-price">دج 0.00</span></label>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="cart-line">
+                            <span>المجموع الجزئي</span>
+                            <span id="subtotal">دج 0.00</span>
+                        </div>
+                        <div class="cart-line">
+                            <span>رسوم التوصيل</span>
+                            <span id="livraison-price">دج 0.00</span>
+                        </div>
+                        <div class="cart-line">
+                            <span>الإجمالي</span>
+                            <span id="total">دج 0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="promo-wrapper">
+                        <input type="text" name="promo_code" placeholder="أدخل كود التخفيض (إن وجد)">
+                        <button class="btn-light" type="button">تطبيق</button>
+                    </div>
+
+                    <p class="delivery-note">يتم تحديث الإجمالي تلقائيًا عند تعديل الكميات، الولاية أو طريقة التوصيل.</p>
+
+                    <button class="btn-primary" type="submit">تأكيد الطلب</button>
+                </form>
+            </section>
+
+            <section class="glass-panel">
+                <div class="tabs">
+                    <div class="tab active" data-tab="livraison">التوصيل</div>
+                    <div class="tab" data-tab="echange">الاستبدال</div>
+                    <div class="tab" data-tab="remboursement">استرجاع الأموال</div>
+                </div>
+
+                <div id="livraison" class="tab-content active">
+                    <img src="https://i.ibb.co/ccnS28Sv/Photo-Room-20251107-171222.png" alt="معلومات التوصيل">
+                    <h2 class="tab-title">توصيل سريع وآمن</h2>
+                    <p>بعد إرسال النموذج، يتواصل فريقنا معك لتأكيد الطلب خلال ساعات قليلة. الشحنة تُحضّر في نفس اليوم، والتسليم يتم خلال 24 إلى 48 ساعة في كل ولايات الجزائر.</p>
+                    <p>تغليف محكم، متابعة للشحنة، ودعم مستمر من الفريق</p>
+                </div>
+
+                <div id="echange" class="tab-content">
+                    <img src="https://i.ibb.co/jvwvSsHJ/Retrait-sur-arlon.png" alt="سياسة الاستبدال">
+                    <h2 class="tab-title">استبدال بسيط وفعّال</h2>
+                    <p>إذا احتجت إلى استبدال قطعة، راسلنا عبر إنستغرام أو فيسبوك أو الهاتف. رسوم التوصيل مجانية إن كان الخطأ من طرفنا.</p>
+                </div>
+
+                <div id="remboursement" class="tab-content">
+                    <img src="https://i.ibb.co/S7tYt5n6/21-min.jpg" alt="سياسة الاسترجاع">
+                    <h2 class="tab-title">ضمان استرجاع الأموال</h2>
+                    <p>هل وصل المنتج متضررًا أو غير مكتمل؟ تواصل معنا لبدء عملية الاسترجاع. أعد المنتج إلى عنواننا المعتمد، وسنتكفل بإتمام الإجراءات بسرعة وشفافية.</p>
+                </div>
+            </section>
+
+            <section class="glass-panel contact-section" id="contact">
+                <h3>تواصل معنا متى شئت</h3>
+                <p>جاهزون لنجيب عن استفساراتك ونرافقك لاختيار الإضاءة الأنسب لمنزلك.</p>
+                <div class="contact-links">
+                    <a href="https://wa.me/213771589577" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> واتساب: ‎+213 771 589 577</a>
+                    <a href="mailto:lokdou2@gmail.com"><i class="fas fa-envelope"></i> البريد الإلكتروني: lokdou2@gmail.com</a>
+                </div>
+            </section>
+        </main>
+
+        <footer id="faq">
+            <p>© 2025 Durag Dz — كل الحقوق محفوظة. دو راق صُمّم ليُبرز أسلوبك، ويحمي الـ Waves الخاصة بك، ويرافقك كل يوم بثقة وأناقة</p>
+        </footer>
+    </div>
+
+    <button class="floating-order-btn" type="button">أطلب لآن</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            /* Overlay control */
+            const entryOverlay = document.getElementById("entry-overlay");
+            const pageWrapper = document.querySelector(".page-wrapper");
+            let overlayTimer;
+
+            function hideOverlay() {
+                if (!entryOverlay.classList.contains("hidden")) {
+                    entryOverlay.classList.add("hidden");
+                    pageWrapper.classList.remove("blurred");
+                    document.body.classList.remove("overlay-active");
+                }
+            }
+
+            function startOverlayTimer() {
+                overlayTimer = setTimeout(() => {
+                    hideOverlay();
+                    document.removeEventListener("click", overlayClickHandler);
+                }, 5000);
+            }
+
+            function overlayClickHandler() {
+                hideOverlay();
+                clearTimeout(overlayTimer);
+                document.removeEventListener("click", overlayClickHandler);
+            }
+
+            startOverlayTimer();
+            document.addEventListener("click", overlayClickHandler, { once: true });
+
+            /* Tabs switching */
+            document.querySelectorAll(".tab").forEach(tab => {
+                tab.addEventListener("click", () => {
+                    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+                    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+                    tab.classList.add("active");
+                    document.getElementById(tab.dataset.tab).classList.add("active");
+                });
+            });
+
+            /* Carousel logic with thumbnails */
+            const track = document.querySelector(".carousel-track");
+            const slides = Array.from(track.children);
+            const prevBtn = document.querySelector(".carousel-btn.prev");
+            const nextBtn = document.querySelector(".carousel-btn.next");
+            const thumbs = Array.from(document.querySelectorAll(".thumb"));
+
+            let currentIndex = 0;
+
+            function updateCarousel(index) {
+                currentIndex = (index + slides.length) % slides.length;
+                const offset = currentIndex * 100;
+                track.style.transform = `translateX(-${offset}%)`;
+                thumbs.forEach((thumb, i) => {
+                    thumb.classList.toggle("active", i === currentIndex);
+                    if (i === currentIndex) {
+                        thumb.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                    }
+                });
+            }
+
+            prevBtn.addEventListener("click", () => updateCarousel(currentIndex - 1));
+            nextBtn.addEventListener("click", () => updateCarousel(currentIndex + 1));
+
+            thumbs.forEach((thumb, index) => {
+                thumb.addEventListener("click", () => updateCarousel(index));
+            });
+
+            let startX = 0;
+            let isDragging = false;
+
+            track.addEventListener("touchstart", (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            track.addEventListener("touchmove", (e) => {
+                if (!isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diff = currentX - startX;
+                if (Math.abs(diff) > 50) {
+                    updateCarousel(currentIndex + (diff < 0 ? 1 : -1));
+                    isDragging = false;
+                }
+            });
+
+            track.addEventListener("touchend", () => {
+                isDragging = false;
+            });
+
+            updateCarousel(0);
+
+            /* Pricing & form logic */
+            const baseOffers = [
+                { qty: 1, price: 2500 },
+                { qty: 2, price: 4500 },
+                { qty: 3, price: 6000 },
+                { qty: 4, price: 7500 }
+            ];
+
+            function calculateProductSubtotal(qty) {
+                if (qty <= 0) return 0;
+                const offer = baseOffers.find(o => o.qty === qty);
+                if (offer) return offer.price;
+                if (qty > 4) {
+                    return 7500 + (qty - 4) * 1500;
+                }
+                return qty * 2500;
+            }
+
+            const worldExpressTariffs = {
+                "أدرار": { desk: 1100, home: 1400 },
+                "الشلف": { desk: 450, home: 850 },
+                "الأغواط": { desk: 700, home: 1000 },
+                "أم البواقي": { desk: 500, home: 850 },
+                "باتنة": { desk: 500, home: 850 },
+                "بجاية": { desk: 500, home: 850 },
+                "بسكرة": { desk: 600, home: 950 },
+                "بشار": { desk: 1100, home: 1400 },
+                "البليدة": { desk: 450, home: 850 },
+                "البويرة": { desk: 450, home: 850 },
+                "تمنراست": { desk: 1400, home: 1800 },
+                "تبسة": { desk: 600, home: 950 },
+                "تلمسان": { desk: 500, home: 850 },
+                "تيارت": { desk: 500, home: 850 },
+                "تيزي وزو": { desk: 400, home: 500 },
+                "الجزائر": { desk: 450, home: 700 },
+                "الجلفة": { desk: 600, home: 900 },
+                "جيجل": { desk: 500, home: 850 },
+                "سطيف": { desk: 450, home: 850 },
+                "سعيدة": { desk: 600, home: 900 },
+                "سكيكدة": { desk: 500, home: 850 },
+                "سيدي بلعباس": { desk: 500, home: 850 },
+                "عنابة": { desk: 500, home: 850 },
+                "قالمة": { desk: 600, home: 900 },
+                "قسنطينة": { desk: 450, home: 850 },
+                "المدية": { desk: 450, home: 850 },
+                "مستغانم": { desk: 500, home: 850 },
+                "المسيلة": { desk: 500, home: 850 },
+                "معسكر": { desk: 600, home: 900 },
+                "ورقلة": { desk: 800, home: 1100 },
+                "وهران": { desk: 450, home: 850 },
+                "البيض": { desk: 800, home: 1100 },
+                "إيليزي": { desk: 1700, home: 2000 },
+                "برج بوعريريج": { desk: 450, home: 850 },
+                "بومرداس": { desk: 450, home: 800 },
+                "الطارف": { desk: 600, home: 950 },
+                "تندوف": { desk: 1400, home: 1800 },
+                "تيسمسيلت": { desk: 500, home: 850 },
+                "الوادي": { desk: 800, home: 1100 },
+                "خنشلة": { desk: 600, home: 900 },
+                "سوق أهراس": { desk: 600, home: 900 },
+                "تيبازة": { desk: 450, home: 850 },
+                "ميلة": { desk: 500, home: 850 },
+                "عين الدفلى": { desk: 450, home: 850 },
+                "النعامة": { desk: 800, home: 1100 },
+                "عين تموشنت": { desk: 600, home: 900 },
+                "غرداية": { desk: 800, home: 1100 },
+                "غليزان": { desk: 500, home: 850 },
+                "تميمون": { desk: 1100, home: 1400 },
+                "برج باجي مختار": { desk: 1050, home: 1380 },
+                "أولاد جلال": { desk: 700, home: 1000 },
+                "بني عباس": { desk: 1100, home: 1400 },
+                "إن صالح": { desk: 1100, home: 1400 },
+                "إن قزام": { desk: 1700, home: 2000 },
+                "تقرت": { desk: 800, home: 1100 },
+                "جانت": { desk: 1700, home: 2000 },
+                "المغير": { desk: 800, home: 1100 },
+                "المنيعة": { desk: 1100, home: 1300 }
+            };
+
+            const subtotal = document.getElementById("subtotal");
+            const livraisonPrice = document.getElementById("livraison-price");
+            const total = document.getElementById("total");
+            const deliveryRadios = document.querySelectorAll('input[name="delivery"]');
+            const wilayaSelect = document.getElementById("wilaya-select");
+            const deliveryDeskPriceLabel = document.getElementById("delivery-desk-price");
+            const deliveryHomePriceLabel = document.getElementById("delivery-home-price");
+            const deliveryModeTextInput = document.getElementById("delivery-mode-text");
+            const subtotalInputHidden = document.getElementById("subtotal-input");
+            const deliveryInputHidden = document.getElementById("delivery-input");
+            const totalInputHidden = document.getElementById("total-input");
+            const totalQuantityHidden = document.getElementById("total-quantity-input");
+            const productCards = Array.from(document.querySelectorAll(".product-card"));
+            const firstProductToggle = document.querySelector(".product-toggle");
+            const priceDisplay = document.getElementById("price-display");
+
+            function formatCurrency(value) {
+                return `دج ${value.toLocaleString('fr-DZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            }
+
+            function getCurrentDeliveryPrices() {
+                const selectedWilaya = wilayaSelect.value;
+                if (worldExpressTariffs[selectedWilaya]) {
+                    return worldExpressTariffs[selectedWilaya];
+                }
+                return { desk: 400, home: 600 };
+            }
+
+            function updateDeliveryLabels() {
+                const { desk, home } = getCurrentDeliveryPrices();
+                deliveryDeskPriceLabel.textContent = formatCurrency(desk);
+                deliveryHomePriceLabel.textContent = formatCurrency(home);
+            }
+
+            function setQuantity(card, quantity) {
+                const qtyInput = card.querySelector(".product-qty-input");
+                const checkbox = card.querySelector(".product-toggle");
+                const sanitized = Math.max(0, Number.isFinite(quantity) ? quantity : parseInt(quantity, 10) || 0);
+                qtyInput.value = sanitized;
+                checkbox.checked = sanitized > 0;
+                card.classList.toggle("active", sanitized > 0);
+            }
+
+            function updateTotals() {
+                const totalQty = productCards.reduce((sum, card) => {
+                    const value = parseInt(card.querySelector(".product-qty-input").value, 10);
+                    return sum + (isNaN(value) ? 0 : value);
+                }, 0);
+
+                if (firstProductToggle) {
+                    firstProductToggle.required = totalQty === 0;
+                }
+
+                if (priceDisplay) {
+                    priceDisplay.textContent = "قيمة المنتجات: دج 2,500.00";
+                }
+
+                const subtotalValue = calculateProductSubtotal(totalQty);
+                const hasItems = totalQty > 0;
+
+                const { desk, home } = getCurrentDeliveryPrices();
+                const selectedRadio = document.querySelector('input[name="delivery"]:checked');
+                const deliveryCost = hasItems ? (selectedRadio && selectedRadio.value === "domicile" ? home : desk) : 0;
+
+                subtotal.textContent = formatCurrency(subtotalValue);
+                livraisonPrice.textContent = formatCurrency(deliveryCost);
+                total.textContent = formatCurrency(subtotalValue + deliveryCost);
+
+                subtotalInputHidden.value = subtotalValue.toFixed(2);
+                deliveryInputHidden.value = deliveryCost.toFixed(2);
+                totalInputHidden.value = (subtotalValue + deliveryCost).toFixed(2);
+                totalQuantityHidden.value = totalQty;
+
+                if (hasItems && selectedRadio) {
+                    deliveryModeTextInput.value = selectedRadio.dataset.label || "";
+                } else {
+                    deliveryModeTextInput.value = "";
+                }
+            }
+
+            if (productCards.length) {
+                productCards.forEach(card => {
+                    const checkbox = card.querySelector(".product-toggle");
+                    const qtyInput = card.querySelector(".product-qty-input");
+                    const minusBtn = card.querySelector(".qty-btn.minus");
+                    const plusBtn = card.querySelector(".qty-btn.plus");
+
+                    minusBtn.addEventListener("click", () => {
+                        const current = parseInt(qtyInput.value, 10) || 0;
+                        setQuantity(card, Math.max(0, current - 1));
+                        updateTotals();
+                    });
+
+                    plusBtn.addEventListener("click", () => {
+                        const current = parseInt(qtyInput.value, 10) || 0;
+                        setQuantity(card, current + 1);
+                        updateTotals();
+                    });
+
+                    qtyInput.addEventListener("change", () => {
+                        let value = parseInt(qtyInput.value, 10);
+                        if (isNaN(value) || value < 0) value = 0;
+                        setQuantity(card, value);
+                        updateTotals();
+                    });
+
+                    checkbox.addEventListener("change", () => {
+                        if (checkbox.checked) {
+                            if ((parseInt(qtyInput.value, 10) || 0) === 0) {
+                                setQuantity(card, 1);
+                            } else {
+                                card.classList.add("active");
+                            }
+                        } else {
+                            setQuantity(card, 0);
+                        }
+                        updateTotals();
+                    });
+                });
+            }
+
+            deliveryRadios.forEach(radio => radio.addEventListener("change", updateTotals));
+            wilayaSelect.addEventListener("change", () => {
+                updateDeliveryLabels();
+                updateTotals();
+            });
+
+            const floatingButton = document.querySelector(".floating-order-btn");
+            if (floatingButton) {
+                floatingButton.addEventListener("click", () => {
+                    document.getElementById("order-form").scrollIntoView({ behavior: "smooth" });
+                });
+            }
+
+            updateDeliveryLabels();
+            updateTotals();
+        });
+    </script>
+</body>
+</html>
