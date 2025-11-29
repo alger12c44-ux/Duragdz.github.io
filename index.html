@@ -1126,9 +1126,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="address">العنوان الكامل <span class="required">*</span></label>
-                        <input type="text" id="address" name="address" placeholder="اكتب العنوان بالتفصيل" required>
-                    </div>
+                        <label for="address">البلدية<span class="required">*</span></label>
+                    <input type="text" id="address" name="address" placeholder="اكتب بلديتك" required>                    </div>
 
                     <div class="delivery-options">
                         <h4>خدمة التوصيل</h4>
@@ -1324,64 +1323,64 @@
             }
 
             const worldExpressTariffs = {
-                "أدرار": { desk: 1100, home: 1400 },
-                "الشلف": { desk: 450, home: 850 },
-                "الأغواط": { desk: 700, home: 1000 },
-                "أم البواقي": { desk: 500, home: 850 },
-                "باتنة": { desk: 500, home: 850 },
-                "بجاية": { desk: 500, home: 850 },
-                "بسكرة": { desk: 600, home: 950 },
-                "بشار": { desk: 1100, home: 1400 },
-                "البليدة": { desk: 450, home: 850 },
-                "البويرة": { desk: 450, home: 850 },
-                "تمنراست": { desk: 1400, home: 1800 },
-                "تبسة": { desk: 600, home: 950 },
-                "تلمسان": { desk: 500, home: 850 },
-                "تيارت": { desk: 500, home: 850 },
-                "تيزي وزو": { desk: 400, home: 500 },
-                "الجزائر": { desk: 450, home: 700 },
+                "أدرار": { desk: 970, home: 1400 },
+                "الشلف": { desk: 520, home: 850 },
+                "الأغواط": { desk: 620, home: 950 },
+                "أم البواقي": { desk: 520, home: 850 },
+                "باتنة": { desk: 520, home: 850 },
+                "بجاية": { desk: 520, home: 800 },
+                "بسكرة": { desk: 620, home: 950 },
+                "بشار": { desk: 720, home: 1100 },
+                "البليدة": { desk: 470, home: 600 },
+                "البويرة": { desk: 520, home: 700 },
+                "تمنراست": { desk: 1120, home: 1600 },
+                "تبسة": { desk: 570, home: 900 },
+                "تلمسان": { desk: 570, home: 900 },
+                "تيارت": { desk: 520, home: 850 },
+                "تيزي وزو": { desk: 520, home: 750 },
+                "الجزائر": { desk: 370, home: 500 },
                 "الجلفة": { desk: 600, home: 900 },
-                "جيجل": { desk: 500, home: 850 },
-                "سطيف": { desk: 450, home: 850 },
-                "سعيدة": { desk: 600, home: 900 },
-                "سكيكدة": { desk: 500, home: 850 },
-                "سيدي بلعباس": { desk: 500, home: 850 },
-                "عنابة": { desk: 500, home: 850 },
-                "قالمة": { desk: 600, home: 900 },
-                "قسنطينة": { desk: 450, home: 850 },
-                "المدية": { desk: 450, home: 850 },
-                "مستغانم": { desk: 500, home: 850 },
-                "المسيلة": { desk: 500, home: 850 },
-                "معسكر": { desk: 600, home: 900 },
-                "ورقلة": { desk: 800, home: 1100 },
-                "وهران": { desk: 450, home: 850 },
-                "البيض": { desk: 800, home: 1100 },
+                "جيجل": { desk: 570, home: 950 },
+                "سطيف": { desk: 520, home: 800 },
+                "سعيدة": { desk: 570, home: 900 },
+                "سكيكدة": { desk: 520, home: 900 },
+                "سيدي بلعباس": { desk: 520, home: 900 },
+                "عنابة": { desk: 520, home: 850 },
+                "قالمة": { desk: 520, home: 900 },
+                "قسنطينة": { desk: 520, home: 800 },
+                "المدية": { desk: 520, home: 800 },
+                "مستغانم": { desk: 520, home: 900 },
+                "المسيلة": { desk: 570, home: 850 },
+                "معسكر": { desk: 520, home: 900 },
+                "ورقلة": { desk: 670, home: 950 },
+                "وهران": { desk: 520, home: 800 },
+                "البيض": { desk: 670, home: 1100 },
                 "إيليزي": { desk: 1700, home: 2000 },
-                "برج بوعريريج": { desk: 450, home: 850 },
-                "بومرداس": { desk: 450, home: 800 },
-                "الطارف": { desk: 600, home: 950 },
+                "برج بوعريريج": { desk: 520, home: 800 },
+                "بومرداس": { desk: 520, home: 700 },
+                "الطارف": { desk: 520, home: 850 },
                 "تندوف": { desk: 1400, home: 1800 },
-                "تيسمسيلت": { desk: 500, home: 850 },
-                "الوادي": { desk: 800, home: 1100 },
-                "خنشلة": { desk: 600, home: 900 },
-                "سوق أهراس": { desk: 600, home: 900 },
-                "تيبازة": { desk: 450, home: 850 },
-                "ميلة": { desk: 500, home: 850 },
-                "عين الدفلى": { desk: 450, home: 850 },
-                "النعامة": { desk: 800, home: 1100 },
-                "عين تموشنت": { desk: 600, home: 900 },
-                "غرداية": { desk: 800, home: 1100 },
-                "غليزان": { desk: 500, home: 850 },
+                "تيسمسيلت": { desk: 520, home: 900 },
+                "الوادي": { desk: 670, home: 950 },
+                "خنشلة": { desk: 520, home: 900 },
+                "سوق أهراس": { desk: 520, home: 900 },
+                "تيبازة": { desk: 520, home: 700 },
+                "ميلة": { desk: 520, home: 900 },
+                "عين الدفلى": { desk: 520, home: 900 },
+                "النعامة": { desk: 670, home: 1100 },
+                "عين تموشنت": { desk: 520, home: 900 },
+                "غرداية": { desk: 620, home: 950 },
+                "غليزان": { desk: 520, home: 900 },
                 "تميمون": { desk: 1100, home: 1400 },
                 "برج باجي مختار": { desk: 1050, home: 1380 },
-                "أولاد جلال": { desk: 700, home: 1000 },
-                "بني عباس": { desk: 1100, home: 1400 },
-                "إن صالح": { desk: 1100, home: 1400 },
-                "إن قزام": { desk: 1700, home: 2000 },
-                "تقرت": { desk: 800, home: 1100 },
+                "أولاد جلال": { desk: 620, home: 950 },
+                "بني عباس": { desk: 970, home: 1100 },
+                "إن صالح": { desk: 1100, home: 1600 },
+                "إن قزام": { desk: 1700, home: 1600 },
+                "تقرت": { desk: 670, home: 950 },
                 "جانت": { desk: 1700, home: 2000 },
-                "المغير": { desk: 800, home: 1100 },
-                "المنيعة": { desk: 1100, home: 1300 }
+                "المغير": { desk: 800, home: 950 },
+                "المنيعة": { desk: 1100, home: 1000 }
             };
 
             const subtotal = document.getElementById("subtotal");
@@ -1523,4 +1522,4 @@
         });
     </script>
 </body>
-                                               </html>
+</html>
